@@ -8,8 +8,9 @@
 
 ## Top-down
 In the folder 'top_down' there are several scripts for different purposes:
-* Simulation of clinical trial ... ... 
-* PrEP efficacy estimation for each clinical study ... ...
+* simulation_clinical.py: contains functions for the simulation of clinical trials. 
+* run_simulation.py: call function in simulation_clinical.py, run the simulations and return 
+the number of infections for each hypothesis. 
 
 ## Bottom-up
 The folder 'bottom_up' contains scripts and packages for the 'bottom-up' modelling 

@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # Lanxin Zhang
+import sys
 
 from simulation_clinical import *
 import pandas as pd
@@ -53,25 +54,41 @@ indicators = [[0, i, j, k] for i in range(2) for j in range(2) for k in range(2)
 phi_dict = dict()
 for i, indicator in enumerate(indicators):
     key = ''.join(map(str, indicator))
-    print(indicator)
     phi_dict[key] = list()
     data = np.load('../data/phi/phi_{}.npy'.format(key))
     for i in range(7):
         phi_dict[key].append(data[:, i].mean())
 
 # read the probability of detectable plasma TFV from file
-df_001 = pd.read_csv('../data/PercentageConcOver001.csv', index_col=0)  # LLOQ = 0.001uM
-df_035 = pd.read_csv('../data/PercentageConcOver035.csv', index_col=0)  # LLOQ = 0.035uM
+df_001 = pd.read_csv('../data/TFV_percentage/PercentageConcOver001.csv', index_col=0)  # LLOQ = 0.001uM
+df_035 = pd.read_csv('../data/TFV_percentage/PercentageConcOver035.csv', index_col=0)  # LLOQ = 0.035uM
 
 
 # take HPTN084 as an example to run the simulations and check the results
 def main():
     # infection incidence sampled from distribution
     # HPTN84, total infection=36
-    n_tot_nodrug, n_tot_drug, py_nodrug, py_followup, n_inf_nodrug, filename, df_conc = \
-        698, 888, 858, 1.23, 32, 'HPTN084', df_001
-    simulations_nodrug_and_drug_all_hypotheses(n_tot_nodrug, n_tot_drug, py_nodrug, py_followup, n_inf_nodrug, filename,
-                                               df_conc, phi_dict)
+    study = input('Please choose one clinical study '
+                  '(Options: HPTN084, Partners, TDF2, VOICE, FEM): ')
+    if study == 'HPTN084':
+        n_tot_nodrug, n_tot_drug, py_nodrug, py_followup, n_inf_nodrug, filename, df_conc = \
+            698, 888, 858, 1.23, 32, 'HPTN084', df_001
+    if study == 'Partners':
+        n_tot_nodrug, n_tot_drug, py_nodrug, py_followup, n_inf_nodrug, filename, df_conc = \
+            110, 456, 181, 1.649, 6.75, 'Partners', df_001
+    if study == 'TDF2':
+        n_tot_nodrug, n_tot_drug, py_nodrug, py_followup, n_inf_nodrug, filename, df_conc = \
+            56, 224, 72, 1.282, 3.5, 'TDF2', df_001
+    if study == 'VOICE':
+        n_tot_nodrug, n_tot_drug, py_nodrug, py_followup, n_inf_nodrug, filename, df_conc = \
+            699, 286, 911, 1.303, 53, 'VOICE', df_001
+    if study == 'FEM':
+        n_tot_nodrug, n_tot_drug, py_nodrug, py_followup, n_inf_nodrug, filename, df_conc = \
+            658, 366, 451, 0.685, 25, 'FEM', df_035
+    else:
+        sys.stderr.write('Invalid name of study. Please check and run again. \n')
+    simulations_nodrug_and_drug_all_hypotheses(n_tot_nodrug, n_tot_drug, py_nodrug, py_followup, n_inf_nodrug,
+                                                   filename, df_conc, phi_dict)
 
 
 if __name__ == '__main__':

@@ -1,0 +1,12 @@
+node_modules
+# all data files
+###################
+*.csv
+*.pt
+*.xlsx
+*.npy
+*.pkl
+
+# cache files
+##################
+*.pyc

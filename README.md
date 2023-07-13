@@ -2,7 +2,7 @@
 >This repo contains the codes that were used to analyze the prophylactic efficacy of  Truvada on Women. 
 > The top-down and bottom-up analysis can be reproduced using corresponding codes provided here.  
 
-[![GPLv3 License](https://img.shields.io/badge/License-GPL%20v3-yellow.svg)](https://opensource.org/licenses/)
+[![GPLv3 License](https://img.shields.io/badge/License-GPL%20v3-yellow.svg)](https://opensource.org/licenses/) [![DOI](https://zenodo.org/badge/616463573.svg)](https://zenodo.org/badge/latestdoi/616463573)
 
 ## Table of Contents
 -   [System requirements](#system-requirements)

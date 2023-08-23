@@ -2,7 +2,7 @@
 # Lanxin Zhang
 import sys
 
-from simulation_clinical import *
+from simulation_utils import *
 import pandas as pd
 
 
@@ -29,28 +29,31 @@ def simulations_nodrug_and_drug_all_hypotheses(n_tot_nodrug, n_tot_drug, py_nodr
     t, inf = clinical_simulation_incidence_sampled(n_tot_nodrug, py_followup, r_inf, n_simul)
     a = [inf[i][-1] for i in range(len(inf))]
     py = [np.sum(t[i]) for i in range(len(t))]
+    print('Drug undetected subgroup: ')
     print("average PYs: ", np.sum(py) / len(py), np.quantile(py, (0.025, 0.975)))
     print("Mean:", np.mean(a), "median", np.median(a), "95% quantile range: ", np.quantile(a, (0.025, 0.975)))
-    print('--------------------------')
+    print('-------------------------------------')
     res = [a]
 
     # drug detected subgroup in intervention arm
+    print('Drug detected subgroup: ')
     for key, value in phi_dict.items():
         # calculate the weighted efficacy of 7 dosing schemes based on the percentage-concentration plots
         phi = sum([df_conc.iloc[1, i] * value[i] for i in range(7)]) / sum(df_conc.iloc[1])
-        print(key, phi)
+        print('Scenario indicator:', key, '  Average efficacy:', phi)
         t, inf = clinical_simulation_incidence_sampled(n_tot_drug, py_followup, r_inf, n_simul, phi=phi)
         py = [np.sum(t[i]) for i in range(len(t))]
-        print("average PYs: ", np.sum(py) / len(py), np.quantile(py, (0.025, 0.975)))
+        print("average PYs:", np.sum(py) / len(py), np.quantile(py, (0.025, 0.975)))
         a = [inf[i][-1] for i in range(len(inf))]
-        print("Mean:", np.mean(a), "95% quantile range: ", np.quantile(a, (0.025, 0.975)))
+        print("Infections: mean:", np.mean(a), "95% quantile range:", np.quantile(a, (0.025, 0.975)))
+        print('***')
         res.append(a)
     np.save('{}'.format(filename), np.array(res))
 
 
 # read the efficacy value of each hypothesis from npy file and save the mean value in a dict.
 # each binary number represents a hypothesis. Check the code in ../bottom_up/main.py for details.
-indicators = [[0, i, j, k] for i in range(2) for j in range(2) for k in range(2)]
+indicators = [[1, i, j, k] for i in range(2) for j in range(2) for k in range(2)]
 phi_dict = dict()
 for i, indicator in enumerate(indicators):
     key = ''.join(map(str, indicator))
@@ -60,29 +63,28 @@ for i, indicator in enumerate(indicators):
         phi_dict[key].append(data[:, i].mean())
 
 # read the probability of detectable plasma TFV from file
-df_001 = pd.read_csv('../data/TFV_percentage/PercentageConcOver001.csv', index_col=0)  # LLOQ = 0.001uM
-df_035 = pd.read_csv('../data/TFV_percentage/PercentageConcOver035.csv', index_col=0)  # LLOQ = 0.035uM
+df_001 = pd.read_csv('../data/tfv_percentage/PercentageConcOver001.csv', index_col=0)  # LLOQ = 0.001uM
+df_035 = pd.read_csv('../data/tfv_percentage/PercentageConcOver035.csv', index_col=0)  # LLOQ = 0.035uM
 
 
-# take HPTN084 as an example to run the simulations and check the results
+
 def main():
     # infection incidence sampled from distribution
-    # HPTN84, total infection=36
     study = input('Please choose one clinical study '
                   '(Options: HPTN084, Partners, TDF2, VOICE, FEM): ')
-    if study == 'HPTN084':
+    if study.lower() == 'hptn084':
         n_tot_nodrug, n_tot_drug, py_nodrug, py_followup, n_inf_nodrug, filename, df_conc = \
             698, 888, 858, 1.23, 32, 'HPTN084', df_001
-    if study == 'Partners':
+    elif study.lower() == 'partners':
         n_tot_nodrug, n_tot_drug, py_nodrug, py_followup, n_inf_nodrug, filename, df_conc = \
             110, 456, 181, 1.649, 6.75, 'Partners', df_001
-    if study == 'TDF2':
+    elif study.lower() == 'tdf2':
         n_tot_nodrug, n_tot_drug, py_nodrug, py_followup, n_inf_nodrug, filename, df_conc = \
             56, 224, 72, 1.282, 3.5, 'TDF2', df_001
-    if study == 'VOICE':
+    elif study.lower() == 'voice':
         n_tot_nodrug, n_tot_drug, py_nodrug, py_followup, n_inf_nodrug, filename, df_conc = \
             699, 286, 911, 1.303, 53, 'VOICE', df_001
-    if study == 'FEM':
+    elif study.lower() == 'fem':
         n_tot_nodrug, n_tot_drug, py_nodrug, py_followup, n_inf_nodrug, filename, df_conc = \
             658, 366, 451, 0.685, 25, 'FEM', df_035
     else:

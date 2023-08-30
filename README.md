@@ -115,7 +115,7 @@ will be stored automatically in npy files.
 ## About data
 The folder 'data' contains pre-generated data that are necessary for the top-down and bottom-up analysis. 
 * dosing.csv: contains 7 boolean arrays which represent respectively the dosing regimens that 1, 2, ... 7 doses will be taken every week, where 1 denotes dose taking and 0 represents missing. It's used to compute the PrEP efficacy in the bottom-up approach.
-* pk: there are two files containing the pharmacokinetic parameters of 1000 virtual patients for TDF (burnssimparam.csv) and FTC (ftcmax.csv), respectively. They are utilized in the bottom-up approach.
+* pk: there are two files (which are also the Supplementary dataset referenced in the online Method) containing the pharmacokinetic parameters of 1000 virtual patients for TDF (SupplementaryDataset2.csv) and FTC (SupplementaryDataset1.csv), respectively. They are utilized in the bottom-up approach.
 * mmoa: two files containing the matrices computed from molecular mode of action: the matrices represent the relation between TFV-DP and FTC-TP level and direct drug effect. They are used in the bottom-up approach.
 * phi: contains several numpy arrays which are precomputed PrEP efficacy trajectories under different hypothesis. 
 * tfv_percentage: two files containing the probability that TFV is detectable (above the lower limit of quantification, LLOQ) within different dosing adherence for LLOQ = 0.001uM and 0.035uM respectively. 

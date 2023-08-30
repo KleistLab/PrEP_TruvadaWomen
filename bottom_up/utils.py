@@ -17,7 +17,7 @@ def p_inoculum(r, v0, vl=10001):
         upper bound for donor viral load
     return:
     The probability of inoculum size v0 under the corresponding exposure mode. For details please check
-    Supplementary text 2.
+    online Method.
     """
     mu = 4.51
     sigma = 0.98
@@ -27,10 +27,10 @@ def p_inoculum(r, v0, vl=10001):
         return (1 + special.erf((np.log10(x ** (1 / m)) - mu) / (2 ** 0.5 * sigma))) / 2
 
     f0 = np.arange(1, vl)
-    f_array = cdf(f0) - cdf(f0-1)
-    row_mat, col_mat = np.meshgrid(v0, f0)
     import warnings
     warnings.filterwarnings("ignore")
+    f_array = cdf(f0) - cdf(f0-1)
+    row_mat, col_mat = np.meshgrid(v0, f0)
     matrix = special.comb(col_mat, row_mat) * (r ** row_mat) * ((1 - r) ** (col_mat - row_mat))
     return f_array @ matrix
 

@@ -26,8 +26,8 @@ def compute_pe_truvada(indicator, tend, adh_pattern=None, time_step=0.02, ode_so
     # rvi is by default included
     e_rvi.add_regimen(r_ftc)
     e_rvi.add_regimen(r_tdf)
-    e_rvi.add_sample_files('../data/pk/ftcmax.csv')
-    e_rvi.add_sample_files('../data/pk/burnssimparam.csv')
+    e_rvi.add_sample_files('../data/pk/SupplementaryDataset1.csv')
+    e_rvi.add_sample_files('../data/pk/SupplementaryDataset2.csv')
 
     if time_step and ode_solver:
         e_rvi.set_pk_ode_solver('TDF', ode_solver)

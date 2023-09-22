@@ -1,4 +1,4 @@
-# Synthesis of protective oral PrEP adherence levels in cisgender women using convergent clinical- and bottom-up modeling
+# Model-based predictions of protective HIV PrEP adherence levels in cisgender women
 > This repo includes the code utilized for analyzing the prophylactic efficacy of Truvada on cisgender women, as detailed in the paper with the DOI: 10.21203/rs.3.rs-2772765/v1.
 > 
 > The codes available here allow for the reproduction of both the top-down and bottom-up analyses as presented in the paper.
@@ -121,3 +121,4 @@ The folder 'data' contains pre-generated data that are necessary for the top-dow
 * tfv_percentage: two files containing the probability that TFV is detectable (above the lower limit of quantification, LLOQ) within different dosing adherence for LLOQ = 0.001uM and 0.035uM respectively. 
 * inf: in this folder there are 5 files containing the simulated infection numbers in drug-undetected subgroup of each clinical trial. Used in the top-down approach.  
 
+The forlder 'figures' contains the source data underlying the figures in main manuscript. 

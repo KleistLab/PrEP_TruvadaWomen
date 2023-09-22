@@ -1,4 +1,5 @@
-# Model-based predictions of protective HIV PrEP adherence levels in cisgender women
+# Model-based predictions of protective HIV PrEP levels in cisgender women
+
 > This repo includes the code utilized for analyzing the prophylactic efficacy of Truvada on cisgender women, as detailed in the paper with the DOI: 10.21203/rs.3.rs-2772765/v1.
 > 
 > The codes available here allow for the reproduction of both the top-down and bottom-up analyses as presented in the paper.

@@ -1,4 +1,4 @@
-# Model-based predictions of protective HIV PrEP adherence levels in cisgender women
+# Model-based predictions of protective HIV PrEP levels in cisgender women
 
 > This repo includes the code utilized for analyzing the prophylactic efficacy of Truvada on cisgender women, as detailed in the paper with the DOI: 10.21203/rs.3.rs-2772765/v1.
 > 
@@ -60,46 +60,8 @@ They can be installed automatically by creating the conda environment above.
 ## Top-down
 Inside the 'top_down' folder, you will find various scripts that serve different purposes:
 * simulation_utils.py: contains several functions essential for simulating clinical trials. It facilitates tasks such as calculating the probability density function (PDF) of infection incidence, sampling infection incidence from the PDF, and conducting clinical simulations.The clinical trial is simulated using Gillespie algorithm as follows:
+<img src="./env/Alg1.png">
 
----
-header-includes:
-  - \usepackage[ruled,vlined,linesnumbered]{algorithm2e}
-  - \usepackage{color}
-  - \usepackage{amsmath,amssymb}
----
-\begin{algorithm}[H]
-		\everypar={\nl}
-		\SetAlgoLined
-		> \textbf{Input:} Study population N, number of observed infections $n$, total observation time $T_{total}$
-		\\
-		\textbf{Return:} number of infections $n_{\mathrm{Inf}}$ after stochastic simulation incorporating parameter uncertainty and intrinsic randomness\\
-		\textcolor{blue}{\# Simulation repeated $N_{repeats}$ times } \\
-		\For{i = 0 $\cdots$ $N_{repeats}$}{
-			\textbf{initialization:} $t=0$, $n_{\mathrm{Inf}}$ = 0\\
-			\textcolor{blue}{\# Sample an incidence rate $r_{\mathrm{Inf}}$ using eq.~\eqref{cdf}}:\\
-			$r_1 = \mathit{u}(0, 1)$   \\
-			$r_{\mathrm{Inf}} = F^{-1}(r_1)$ \\
-			\textcolor{blue}{\# Calculate the drop--out rate $r_{dr - out}$}:\\
-			$r_{dr - out} = \frac{N}{T_{total}} - r_{\mathrm{Inf}} $ \\
-			\While{$N>0$}{
-				\textcolor{blue}{\# Determine the sum of reaction propensities}:\\
-				$a_0 = (r_{\mathrm{\mathrm{Inf}}} + r_{dr - out}) \cdot N$ \\
-				\textcolor{blue}{\# Determine the next reaction time}:\\
-				$r_2 = \mathcal{U}(0, 1)$   \\
-				$\tau \leftarrow \frac{1}{a_0} \cdot log\left(\frac{1}{r_2}\right)$ \quad  \textcolor{blue}{\# $\tau \sim Exp(a_0)$}  \\
-				$t \leftarrow t + \tau $ \\
-				\textcolor{blue}{\# Determine the next reaction}  \\
-				$r_3 = \mathit{u}(0, 1)$ \\
-				\eIf{$r_3 < \frac{r_{dr - out}}{(r_{dr - out} + r_{\mathrm{\mathrm{Inf}}})}$ }{  
-					\textcolor{blue}{\# Drop out occurs:} \\
-					$N = N - 1$}{
-					\textcolor{blue}{\# Infection occurs} \\
-					$N = N - 1$ \\
-					$n_{\mathrm{\mathrm{Inf}}} = n_{\mathrm{\mathrm{Inf}}} + 1$}
-		}}
-\caption{Clinical trial simulation}
-\label{Alg}
-\end{algorithm} 
 
  For more information, refer to the online Method section. 
 * efficacy_estimator.py: this script is designed to estimate the distribution of PrEP efficacy for the 'drug detected' group within a clinical trial. The estimation is done without any preconceived assumptions about efficacy. The script's output corresponds to the panels G and H in Figure 2. 
